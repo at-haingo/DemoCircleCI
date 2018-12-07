@@ -8,4 +8,8 @@ class TestCI() {
     fun TestCI() {
 
     }
+
+    private fun test_Abc() {
+
+    }
 }
