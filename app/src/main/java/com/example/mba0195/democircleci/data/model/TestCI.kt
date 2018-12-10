@@ -12,4 +12,8 @@ class TestCI() {
     private fun test_Abc() {
 
     }
+
+    fun test_CI() {
+
+    }
 }
