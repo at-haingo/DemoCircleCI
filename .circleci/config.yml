@@ -4,15 +4,14 @@ defaults: &defaults
     docker:
       - image: circleci/android:api-25-alpha
     environment:
-      TERM: dumb
-      _JAVA_OPTIONS: "-Xms350m -Xmx1600m -XX:ParallelGCThreads=2 -XX:ConcGCThreads=2 -XX:ParallelGCThreads=2 -Djava.util.concurrent.ForkJoinPool.common.parallelism=2"
+      JVM_OPTS: -Xmx3200m
 
 jobs:
    check:
       <<: *defaults
       steps:
         - checkout
-
+        - run: git config diff.mnemonicprefix false
         #Setup env
         - run:
             name: Install bundle
