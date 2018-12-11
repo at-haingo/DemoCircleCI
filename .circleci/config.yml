@@ -12,32 +12,29 @@ jobs:
       steps:
         - checkout
         - run: git config diff.mnemonicprefix false
-        #Setup env
-        - run:
-            name: Install bundle
-            command: gem install bundle
+#Setup env
+      - run:
+          name: Install bundle
+          command: gem install bundle
 
-        - restore_cache:
-            key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+#Cache
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
-        - run:
-            name: Download Dependencies
-            command: ./gradlew androidDependencies
-
-        - save_cache:
-            paths:
-              - ~/.gradle
-            key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-
-        - restore_cache:
-            key: gems-{{ checksum "Gemfile.lock" }}
-
-        - run: bundle install --path vendor/bundle
-
-        - save_cache:
-            paths:
-              - vendor/bundle
-            key: gems-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle install --path vendor/bundle
+      - save_cache:
+          paths:
+            - vendor/bundle
+          key: gems-{{ checksum "Gemfile.lock" }}
 
 #        - run:
 #              name: Lint and detekt
