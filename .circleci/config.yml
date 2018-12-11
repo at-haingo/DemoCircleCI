@@ -7,7 +7,8 @@ defaults: &defaults
       JVM_OPTS: -Xmx3200m
 
 jobs:
-    check:
+   check:
+      <<: *defaults
       steps:
         - checkout
         - restore_cache:
@@ -30,9 +31,6 @@ jobs:
 
 workflows:
   version: 2
-  build_and_deploy:
+  reportToPullRequest:
     jobs:
       - check
-      - reportToPullRequest:
-          requires:
-            - check
