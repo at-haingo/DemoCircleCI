@@ -11,6 +11,12 @@ jobs:
       <<: *defaults
       steps:
         - checkout
+
+  #Setup env
+        - run:
+            name: Install bundle
+            command: gem install bundle
+
         - restore_cache:
             key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
         - run:
@@ -31,6 +37,15 @@ jobs:
             destination: reports
         - store_test_results:
             path: app/build/test-results
+
+   reportToPullRequest:
+      <<: *defaults
+      steps:
+        - attach_workspace:
+            at: ~/code
+        - run:
+            name: Run danger
+            command: bundle exec danger
 
 workflows:
   version: 2
