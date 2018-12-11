@@ -60,10 +60,10 @@ jobs:
 #            path: ~/junit
 #            destination: junit
 #
-#        - persist_to_workspace:
-#            root: ~/code
-#            paths:
-#              - .
+        - persist_to_workspace:
+            root: ~/code
+            paths:
+              - .
 
    reportToPullRequest:
       <<: *defaults
