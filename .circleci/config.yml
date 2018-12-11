@@ -21,6 +21,9 @@ jobs:
               - ~/.gradle
             key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
         - run:
+              name: Lint and detekt
+              command: ./gradlew :app:check
+        - run:
             name: Run Tests
             command: ./gradlew lint test
         - store_artifacts:
@@ -31,6 +34,9 @@ jobs:
 
 workflows:
   version: 2
-  reportToPullRequest:
-    jobs:
-      - check
+  check_and_report:
+      jobs:
+        - check
+        - reportToPullRequest:
+            requires:
+              - check
